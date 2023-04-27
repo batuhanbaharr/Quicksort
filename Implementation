@@ -1,0 +1,72 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Quicksort {
+    public static void main(String[] args) {
+        int[] data = {15, 13, 11, 9, 7, 5};
+        int n = data.length;
+        qsort(data);
+
+        if (n < 20) {
+            System.out.println(Arrays.toString(data));
+        }
+        System.out.println("Min: " + data[data.length-1] + ", Med: " + median(data) + ", Max: " + data[0]);
+
+    }
+
+    public static int partition(int[] data, int l, int r) {
+        int p = data[l];
+        int i = l + 1;
+        int j = r;
+        while (i <= j) {
+            while (i <= j && data[i] >= p) {
+                i++;
+            }
+            while (i <= j && data[j] <= p) {
+                j--;
+            }
+            if (i < j) {
+                swap(data, i, j);
+            }
+        }
+        swap(data, l, j);
+        return j;
+    }
+
+    public static void qsort(int[] data, int l, int r) {
+        if (l >= r) {
+            return;
+        }
+        int m = partition(data, l, r);
+        qsort(data, l, m - 1);
+        qsort(data, m + 1, r);
+    }
+
+    public static void qsort(int[] data) {
+        qsort(data, 0, data.length - 1);
+    }
+
+    public static boolean isSorted(int[] data) {
+        for (int i = 1; i < data.length; i++) {
+            if (data[i] > data[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void swap(int[] data, int i, int j) {
+        int temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
+    private static double median(int[] data) {
+        int n = data.length;
+        if (n % 2 == 0) {
+            return (double) (data[n / 2 - 1] + data[n / 2]) / 2;
+        } else {
+            return (double) data[n / 2];
+        }
+    }
+}
